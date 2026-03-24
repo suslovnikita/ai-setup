@@ -13,13 +13,15 @@ AGENTS_SKILLS_AGENT_FLAGS := $(foreach agent,$(AGENTS_TARGETS),-a $(agent))
 CLAUDE_MARKETPLACE_NAMES ?= dapi
 CLAUDE_PLUGIN_NAMESPACE ?= dapi
 
+REGISTRY_REPO ?= thinknetica/ai_swe_group_1
+
 GOOGLE_WORKSPACE_SKILLS := \
 	gws-docs \
 	gws-docs-write \
 	gws-drive \
 	gws-sheets
 
-.PHONY: ai bootstrap mise-package mise-install check
+.PHONY: ai bootstrap mise-package mise-install check register
 .PHONY: agents-install agents agents-cli agents-skills agents-claude-plugins
 .PHONY: agents-skills-install agents-skills-list agents-skills-check-npx
 
@@ -126,3 +128,28 @@ agents-claude-plugins:
 		echo "Installing plugin $$plugin..."; \
 		$(CLAUDE) plugins install $$plugin; \
 	done
+
+# --- Registry ---
+
+register:
+	@REPO_URL=$$(git remote get-url origin | sed 's|git@github.com:|https://github.com/|;s|\.git$$||'); \
+	TMPDIR=$$(mktemp -d); \
+	BRANCH="register-$$(echo "$$REPO_URL" | sed 's|https://github.com/||;s|/|-|g;s|[^a-zA-Z0-9-]|-|g')"; \
+	echo "📋 Registering $$REPO_URL in $(REGISTRY_REPO)..."; \
+	gh repo fork "$(REGISTRY_REPO)" --clone --remote --default-branch-only 2>/dev/null || true; \
+	FORK_REPO="$$(gh api user -q .login)/$$(basename $(REGISTRY_REPO))"; \
+	git clone "https://github.com/$$FORK_REPO.git" "$$TMPDIR/registry" && \
+	cd "$$TMPDIR/registry" && \
+	git remote add upstream "https://github.com/$(REGISTRY_REPO).git" && \
+	git fetch upstream main --quiet && \
+	git checkout -b "$$BRANCH" upstream/main && \
+	echo "$$REPO_URL" >> REGISTRY.txt && \
+	git add REGISTRY.txt && \
+	git commit -m "Register $$REPO_URL" && \
+	git push -u origin "$$BRANCH" && \
+	gh pr create \
+		--repo "$(REGISTRY_REPO)" \
+		--title "Register $$REPO_URL" \
+		--body "Adding \`$$REPO_URL\` to the registry." \
+		--base main; \
+	rm -rf "$$TMPDIR"
