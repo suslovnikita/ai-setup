@@ -52,3 +52,7 @@
 
 # Kamal secrets (contains real secrets)
 .kamal/secrets
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
