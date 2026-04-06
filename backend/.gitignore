@@ -1,0 +1,54 @@
+# Bundler
+/.bundle
+/vendor/bundle
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+/log/*
+!/log/.keep
+
+# Temp files
+/tmp/*
+!/tmp/.keep
+
+# Runtime PIDs
+/tmp/pids/*
+!/tmp/pids/.keep
+
+# Cache
+/tmp/cache/*
+!/tmp/cache/.keep
+!/tmp/cache/assets/stylesheets
+!/tmp/cache/assets/images
+!/tmp/cache/assets/javascript
+
+# Uploaded files (Active Storage local disk)
+/storage/*
+!/storage/.keep
+
+# Test coverage
+/coverage/
+
+# macOS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Playwright CLI artifacts
+.playwright-cli/
+*.png
+*.pdf
+
+# RuboCop cache
+.rubocop-*.yml
+
+# Kamal secrets (contains real secrets)
+.kamal/secrets

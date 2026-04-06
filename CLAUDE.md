@@ -2,7 +2,7 @@
 
 ## Stack
 
-TypeScript, Next.js (App Router), React, Ruby on Rails (API), PostgreSQL, RSpec, FactoryBot, RuboCop, Playwright
+TypeScript, Next.js (App Router), React, Ruby on Rails 8.1 (API), PostgreSQL 15, RSpec, FactoryBot, RuboCop, Playwright
 
 ## Key commands
 
@@ -63,7 +63,7 @@ TypeScript, Next.js (App Router), React, Ruby on Rails (API), PostgreSQL, RSpec,
 
 * Аутентификация:
 
-  * JWT или сессии (в зависимости от проекта)
+  * JWT
 
 * Переменные окружения:
 

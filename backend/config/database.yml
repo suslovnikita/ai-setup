@@ -1,0 +1,38 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: <%= ENV.fetch("DEV_DB_NAME", "booking_development") %>
+  username: <%= ENV.fetch("DEV_DB_USER", "booking_dev") %>
+  password: <%= ENV.fetch("DEV_DB_PASSWORD", "") %>
+
+test:
+  <<: *default
+  database: <%= ENV.fetch("TEST_DB_NAME", "booking_test") %>
+  username: <%= ENV.fetch("TEST_DB_USER", "booking_test") %>
+  password: <%= ENV.fetch("TEST_DB_PASSWORD", "") %>
+
+production:
+  primary: &primary_production
+    <<: *default
+    database: booking_production
+    username: <%= ENV["PROD_DB_USER"] %>
+    password: <%= ENV["PROD_DB_PASSWORD"] %>
+  cache:
+    <<: *primary_production
+    database: booking_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: booking_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: booking_production_cable
+    migrations_paths: db/cable_migrate
