@@ -76,4 +76,4 @@ jobs:
         run: make -f .ai-setup/Makefile agents agents-cli
 
       - name: Run CI smoke checks
-        run: ./scripts/test-ci.sh
+        run: ./.ai-setup/scripts/test-ci.sh
