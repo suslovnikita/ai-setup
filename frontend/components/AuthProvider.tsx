@@ -27,14 +27,10 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setTokenState] = useState<string | null>(null);
+  const [token, setTokenState] = useState<string | null>(() => getToken());
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = getToken();
-    if (storedToken) {
-      setTokenState(storedToken);
-    }
     setIsLoading(false);
   }, []);
 
