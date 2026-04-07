@@ -1,3 +1,5 @@
+# Claude Instructions
+
 См. PROJECT.md для описания проекта.
 
 ## Stack
