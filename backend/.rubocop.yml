@@ -5,12 +5,20 @@ plugins:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.4
   Exclude:
     - "db/schema.rb"
     - "db/migrate/*.rb"
+    - "db/cable_schema.rb"
+    - "db/cache_schema.rb"
+    - "db/queue_schema.rb"
     - "bin/**/*"
     - "vendor/**/*"
+    - "Gemfile"
+    - "Rakefile"
+    - "config.ru"
+    - "config/**/*"
+    - "test/test_helper.rb"
 
 Style/Documentation:
   Enabled: false
