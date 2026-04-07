@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { apiRequest } from "@/lib/api";
 import { getToken, removeToken, setToken } from "@/lib/auth";
 
@@ -28,11 +28,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setTokenState] = useState<string | null>(() => getToken());
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  const [isLoading] = useState(false);
 
   const login = useCallback(async (email: string, password: string) => {
     const data = await apiRequest<AuthResponse>("/api/auth/login", {
