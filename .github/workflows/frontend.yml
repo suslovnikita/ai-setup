@@ -78,10 +78,28 @@ jobs:
         run: npm run test:coverage
 
       - name: Report coverage
+        id: coverage
         run: |
           pct=$(node -e "const s=require('./coverage/coverage-summary.json');console.log(s.total.lines.pct)")
           echo "Coverage: ${pct}%"
           echo "### Frontend Test Coverage: ${pct}%" >> "$GITHUB_STEP_SUMMARY"
+          echo "pct=${pct}" >> "$GITHUB_OUTPUT"
+          if awk "BEGIN {exit !($pct >= 80)}"; then color=brightgreen
+          elif awk "BEGIN {exit !($pct >= 60)}"; then color=yellow
+          else color=red
+          fi
+          echo "color=${color}" >> "$GITHUB_OUTPUT"
+
+      - name: Update coverage badge
+        if: github.ref == 'refs/heads/main'
+        uses: Schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: ${{ vars.COVERAGE_GIST_ID }}
+          filename: frontend-coverage.json
+          label: Frontend Coverage
+          message: ${{ steps.coverage.outputs.pct }}%
+          color: ${{ steps.coverage.outputs.color }}
 
   build:
     name: Build
