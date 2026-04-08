@@ -44,6 +44,12 @@ jobs:
       - name: Run tests
         run: bin/rake
 
+      - name: Report coverage
+        run: |
+          pct=$(ruby -rjson -e 'puts JSON.parse(File.read("coverage/.last_run.json"))["result"]["line"].round(2)')
+          echo "Coverage: ${pct}%"
+          echo "### Test Coverage: ${pct}%" >> "$GITHUB_STEP_SUMMARY"
+
   lint:
     runs-on: ubuntu-latest
     steps:

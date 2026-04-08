@@ -52,6 +52,9 @@ group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
+  # Test coverage
+  gem "simplecov", require: false
+
   # RSpec for Rails
   gem "rspec-rails"
 
