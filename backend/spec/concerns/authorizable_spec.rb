@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Authorizable, type: :controller do
   controller(ApplicationController) do
-    include Authorizable
+    include Authorizable # rubocop:disable RSpec/DescribedClass
 
     def index
       render json: { user_id: current_user.id }
